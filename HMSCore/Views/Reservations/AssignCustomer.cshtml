@@ -1,0 +1,65 @@
+﻿@model AssignGuestFormModel
+
+@{
+    ViewData["Title"] = "Assign customer";
+    var disableControls = string.IsNullOrWhiteSpace(Model.LoadGuestButton) ? "" : "readonly";
+}
+
+<div class="row col-md-8 offset-md-2 col-sm-12">
+    <h4 class="heading-margin text-center">
+        Assign customer to reservation
+    </h4>
+    <div class="row col-md-8 offset-md-2 ">
+        <p class="text-justify">
+            <span class="text-info font-weight-bold">Additional information: </span>
+            Assign customer by guest identity card id, which can get from Guest section.
+            <br />When you assign a customer, in the system will be generated Invoice in state Pending!
+        </p>
+    </div>
+    <form method="post" class="col-md-4 offset-md-4 col-sm-12">
+        <div class="form-group">
+            <label asp-for="IdentityId"></label>
+            <input asp-for="IdentityId" class="form-control" />
+            <span asp-validation-for="IdentityId" class="text-danger small"></span>
+        </div>
+        <div class="row">
+            <span class="text-info small text-center">Is optional to load client details or not through the button.</span>
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-outline-dark btn-sm heading-margin col-4 offset-4" asp-for="@Model.LoadGuestButton" value="Load Guest" />
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestName"></label>
+            <input asp-for="GuestName" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestCountry"></label>
+            <input asp-for="GuestCountry" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestCity"></label>
+            <input asp-for="GuestCity" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestAddress"></label>
+            <input asp-for="GuestAddress" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestPhone"></label>
+            <input asp-for="GuestPhone" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+            <label asp-for="Vouchers"></label>
+            <select asp-for="VoucherId" class="form-control" asp-items="@Model.Vouchers">
+                <option>None</option>
+            </select>
+        </div>
+        <input type="hidden" asp-for="ReservationId" />
+        <input type="submit" asp-for="AssignButton" value="Add" class="btn btn-success col-md-4 offset-md-4 col-sm-4 offset-sm-4" />
+    </form>
+</div>
+
+@section scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+}

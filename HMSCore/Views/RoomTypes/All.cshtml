@@ -1,0 +1,94 @@
+﻿@model ListRoomTypeQueryModel
+
+@{
+    ViewData["Title"] = "All room types";
+}
+
+<div class="row row ml-xl-4 justify-content-md-center">
+    <h4 class="heading-margin text-center mt-5">All room types</h4>
+    <div class="row">
+        <div class="col-6 offset-3 mb-5 mt-4">
+            <p class="text-justify">
+                <span class="text-danger font-weight-bold">Important: </span>If you delete room type, and there has rooms from this type,
+                the rooms will keep all characteristics on deleted room type. In case if you want to change it, you need to assign to rooms a new existing room type manually!
+            </p>
+        </div>
+    </div>
+    @foreach (var roomType in @Model.RoomTypes)
+    {
+            <div class="card col-md-12 col-sm-12 col-12 col-lg-12 col-xl-3 ml-xl-5" style="width: 18rem;">
+                <img src="@roomType.Image" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@roomType.Name</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price: @roomType.Price</li>
+                    <li class="list-group-item">Number of beds: @roomType.NumberOfBeds</li>
+                    <li class="list-group-item">Room count: @roomType.RoomsCount</li>
+                </ul>
+                <div class="card-body col-md-12">
+                    <a class="btn-warning btn-sm col-md-3 offset-md-2" asp-controller="RoomTypes" asp-action="Edit" asp-route-id="@roomType.Id">Edit</a>
+                    <a class="btn-danger btn-sm col-md-3 offset-md-2" asp-controller="RoomTypes" asp-action="Delete" asp-route-id="@roomType.Id">Delete</a>
+                </div>
+            </div>
+    }
+
+    <div class="row justify-content-left">
+        <a class="btn btn-success col-md-2 offset-md-5 heading-margin" asp-controller="RoomTypes" asp-action="Add">Add Room type</a>
+    </div>
+
+    @{
+        int next = Model.CurrentPage;
+        next++;
+        int previous = Model.CurrentPage;
+        previous--;
+    }
+
+    <nav aria-label="...">
+        <ul class="pagination justify-content-center mt-5">
+            @if (Model.CurrentPage == 1)
+            {
+                    <li class="page-item disabled">
+                        <a class="page-link" hr tabindex="-1">Previous</a>
+                    </li>
+            }
+            else
+            {
+                    <li class="page-item ">
+                        <a class="page-link" asp-route-CurrentPage="@previous" hr tabindex="-1"
+                   asp-controller="RoomTypes" asp-action="All">Previous</a>
+                    </li>
+            }
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                if (i == Model.CurrentPage)
+                {
+                            <li class="page-item active">
+                                <a class="page-link disableCursor">@i <span class="sr-only">(current)</span></a>
+                            </li>
+                }
+                else
+                {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="RoomTypes"
+                   asp-action="All" asp-route-CurrentPage="@i">@i</a>
+                            </li>
+                }
+            }
+            @if (Model.CurrentPage == Model.TotalPages)
+            {
+                    <li class="page-item disabled">
+                        <a class="page-link">Next</a>
+                    </li>
+            }
+            else
+            {
+                    <li class="page-item">
+                        <a class="page-link" asp-route-CurrentPage="@next" asp-controller="RoomTypes"
+                   asp-action="All">Next</a>
+                    </li>
+            }
+
+        </ul>
+    </nav>
+</div>
